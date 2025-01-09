@@ -41,12 +41,13 @@ for news_area_elem in news_area_elems:
 
     # '네이버뉴스'에 해당하는 요소만 가져오도록 조건
     if len(info_elem) > 1 and '네이버뉴스' in info_elem[1].text:
-
         a_tag = news_contents_elem.find_element(By.CSS_SELECTOR, "a.news_tit")
         title = a_tag.text
         href = a_tag.get_attribute('href')
         # print(title, '|', href)
 
+        driver.execute_script('window.open(");')
+        driver.switch_to.window(driver.window_handles[1])
         driver.get(href)
         time.sleep(1)
 
@@ -58,7 +59,10 @@ for news_area_elem in news_area_elems:
             "content": content
         })
 
-        driver.back()
+        # driver.back()
+        driver.close()
+        driver.switch_to.window(driver.window_handles[0])
+
         time.sleep(1)
 
 # 파일에 저장
@@ -67,7 +71,7 @@ with open('news_data.txt', 'w', encoding='utf-8') as file:
         file.write(f'제목: {news['title']}\n')
         file.write(f'링크: {news['link']}\n')
         file.write(f'내용: {news['content']}\n')
-        file.wirte("=" * 100)
+        file.write("=" * 100)
         file.write('\n')
 
 driver.quit()
