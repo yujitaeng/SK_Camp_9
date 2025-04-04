@@ -8,4 +8,3 @@ console.log(undef);
 var num = 123;
 num = null;
 console.log(num);
-
