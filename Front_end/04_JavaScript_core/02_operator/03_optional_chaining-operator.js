@@ -12,6 +12,8 @@ var obj = null;
 // var val = obj.value;
 var val = obj?.value;
 
+
+
 var str = "";
 
 var len = str.length;

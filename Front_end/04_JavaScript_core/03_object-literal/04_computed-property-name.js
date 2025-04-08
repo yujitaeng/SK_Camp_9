@@ -9,12 +9,13 @@ boardObj[prefix + '-' + index++] = "Board 1";
 boardObj[prefix + '-' + index++] = "Board 2";
 boardObj[prefix + '-' + index++] = "Board 3";
 
-console.log(boardObj)
+console.log(boardObj);
 
 /* ES6 */
 var boardObj2 = {
     [`${prefix}-${index++}`]: "Board 4",
     [`${prefix}-${index++}`]: "Board 5",
-    [`${prefix}-${index++}`]: "Board 6"
-}
-console.log(boardObj2)
+    [`${prefix}-${index++}`]: "Board 6",
+};
+
+console.log(boardObj2);

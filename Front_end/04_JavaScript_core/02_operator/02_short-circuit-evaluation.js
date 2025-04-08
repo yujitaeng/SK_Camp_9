@@ -33,6 +33,6 @@ num % 2 == 0 || console.log('홀수');
 // 객체로 기대되는 변수가 null 또는 undefined가 아닌지 확인하고
 // 프로퍼티를 참조할 때 단축 평가를 유용하게 활용할 수 있음
 var obj = null;
-// var val = obj.value
-var val = obj && obj.value
-console.log(val)
+// var val = obj.value;
+var val = obj && obj.value;
+console.log(val);
