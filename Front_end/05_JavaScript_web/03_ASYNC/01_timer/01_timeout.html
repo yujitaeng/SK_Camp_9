@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>01. timeout</h1>
+
+    <h3>setTimeout</h3>
+    <pre>setTimeout(func|code[, delay, param1, param2, ...]);</pre>
+    <script>
+        setTimeout(() => console.log('~~~10초 경과~~~'), 10000);
+        console.log('hello?????');
+
+        setTimeout((msg) => console.log(`${msg}`), 5000, '5초 기다림');
+    </script>
+
+    <h3>clearTimeout</h3>
+    <script>
+        const timerId = setTimeout(
+            () => console.log('나는 취소되고 말거야!')
+        , 3000);
+        console.log("timerId", timerId);
+
+        clearTimeout(timerId);
+    </script>
+</body>
+</html>

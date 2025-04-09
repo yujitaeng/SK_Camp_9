@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>02. interval</h1>
+
+    <h3>setInterval</h3>
+    <pre>setInterval(func|code[, delay, param1, param2, ...]);</pre>
+    <script>
+        let count = 1;
+
+        const intervalId = setInterval(() => {
+            console.log(count);
+            count++;
+
+            if(count == 5) {
+                clearInterval(intervalId);
+            }
+        }, 1000);
+    </script>
+
+    <h3>clearInterval</h3>
+    <script>
+        // if(count == 5) {
+        //     clearInterval(intervalId);
+        // }
+    </script>
+</body>
+</html>
