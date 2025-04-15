@@ -1,0 +1,15 @@
+{% if messages %}
+<ul>
+    {% for message in messages %}
+        <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<h1>{{ view.object.pk|yesno:"도서 수정, 도서 등록"}}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">저장</button>
+</form>
+<a href="{% url 'book_list' %}">back to list</a>

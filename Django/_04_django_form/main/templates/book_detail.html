@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ object.title }}</title>
+</head>
+<body>
+    <h1>{{ object.title }}</h1>
+    <p><strong>저자: {{ object.author }}</strong></p>
+    <p><strong>출판일: {{ object.published_date }}</strong></p>
+    <p><strong>가격: {{ object.price }}</strong></p>
+
+    <a href="{% url 'book_update' object.pk %}">수정</a>
+    <a href="{% url 'book_delete' object.pk %}">삭제</a>
+
+    <a href="{% url 'book_list' %}">back to list</a>
+</body>
+</html>
