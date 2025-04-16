@@ -45,11 +45,11 @@ class AnswerServiceImpl(AnswerService):
             cls.__instance = cls()
         return cls.__instance
 
-    def create(self, question_id, content):
+    def create(self, question_id, content, author):
         # question 유효 검증
         question = self.__question_repository.find_by_id(question_id)
         # 사용자 입력 값을 answer 모델 객체로 변환
-        answer = Answer(question=question, content=content)
+        answer = Answer(question=question, content=content, author=author)
         return self.__answer_repository.save(answer)
 
     def find_by_id(self, id):

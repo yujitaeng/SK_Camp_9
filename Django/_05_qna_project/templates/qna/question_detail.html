@@ -25,8 +25,10 @@
                         <span class="badge rounded-pill bg-success">{{question.voter.count}}</span>
                     </a>
                     {# 질문 수정/삭제 #}
-                    <a href="{% url 'qna:question_modify' question.id %}" class="btn btn-sm btn-outline-secondary">수정</a>
-                    <a href="javascript:void(0)" data-uri="{% url 'qna:question_delete' question.id %}" class="remove btn btn-sm btn-outline-danger">삭제</a>
+                    {% if question.author == request.user %}
+                        <a href="{% url 'qna:question_modify' question.id %}" class="btn btn-sm btn-outline-secondary">수정</a>
+                        <a href="javascript:void(0)" data-uri="{% url 'qna:question_delete' question.id %}" class="remove btn btn-sm btn-outline-danger">삭제</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -58,15 +60,17 @@
                             <span class="badge rounded-pill bg-success">{{answer.voter.count}}</span>
                         </a>
                         {# 답변 수정/삭제 #}
-                        <a href="javascript:void(0)"
-                            data-bs-toggle="modal"
-                            data-bs-target="#answerModifyModal"
-                            data-answer-id="{{ answer.id }}"
-                            data-answer-content="{{ answer.content }}"
-                            class="btn btn-sm btn-outline-secondary">수정</a>
-                        <a href="javascript:void(0)"
-                            data-uri="{% url 'qna:answer_delete' answer.id %}?question_id={{ question.id }}"
-                            class="remove btn btn-sm btn-outline-danger">삭제</a>
+                        {% if answer.author == request.user %}
+                            <a href="javascript:void(0)"
+                                data-bs-toggle="modal"
+                                data-bs-target="#answerModifyModal"
+                                data-answer-id="{{ answer.id }}"
+                                data-answer-content="{{ answer.content }}"
+                                class="btn btn-sm btn-outline-secondary">수정</a>
+                            <a href="javascript:void(0)"
+                                data-uri="{% url 'qna:answer_delete' answer.id %}?question_id={{ question.id }}"
+                                class="remove btn btn-sm btn-outline-danger">삭제</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -79,7 +83,7 @@
                 {# csrf 검증처리 : cross-site request forgery 서버가 생성한 정상적인 폼페이지 검증 #}
                 {% csrf_token %}
                 <label for="content" class="form-label">답변내용</label>
-                <textarea name="content" id="content" class="form-control" rows="10" required></textarea>
+                <textarea name="content" id="content" class="form-control" rows="10" required {% if user.is_anonymous %}disabled{% endif %}></textarea>
             </div>
             <input type="submit" value="답변등록" class="btn btn-primary">
         </form>
@@ -115,7 +119,17 @@
 {% endblock %}
 
 {% block script %}
-    <script>
+<script>
+    document.answerCreateFrm.onsubmit = (e) => {
+        {% if user.is_anonymous %}
+            e.preventDefault();
+
+            if(confirm('로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?')) {
+                location.href = "{% url 'uauth:login' %}?next={{ request.path }}"
+            }
+        {% endif %}
+    };
+    
     // 질문/답변 삭제 처리
     const $removeAs = document.querySelectorAll('.remove');
     console.log($removeAs);
@@ -147,6 +161,13 @@
     Array.from(recommend_elements).forEach((element) => {
         // js의 비동기처리를 지원하는 async..await을 사용
         element.addEventListener('click', async (e) => {
+
+            {% if not user.is_authenticated %}
+                if(confirm('로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?')) {
+                    location.href = "{% url 'uauth:login' %}?next={{ request.path }}"
+                }
+            {% endif %}
+
             // a태그 또는 자식span태그 클릭 대응
             const url = e.target.dataset?.uri || e.target.parentElement.dataset.uri;
 
@@ -164,5 +185,5 @@
             element.querySelector('span').textContent = data.votes_count;
         });
     });
-    </script>
+</script>
 {% endblock script %}

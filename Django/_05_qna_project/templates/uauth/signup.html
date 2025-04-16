@@ -53,5 +53,32 @@
 {% endblock content %}
 
 {% block script %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const $username = document.getElementById('username');
+        const $usernameFeedback = document.getElementById('username-feedback');
 
+        $username.addEventListener('input', () => {
+            $usernameFeedback.classList.remove('success', 'error');
+            const usernameValue = $username.value;
+            if(usernameValue.length < 4) {
+                $usernameFeedback.classList.add('error');
+                $usernameFeedback.textContent = '아이디는 4자 이상이어야 합니다.';
+                return;
+            }
+            fetch(`{% url 'uauth:check_username' %}?username=${usernameValue}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    const {available, message} = data;
+                    $usernameFeedback.textContent = message;
+                    if (available) {
+                        $usernameFeedback.classList.add('success');
+                    } else {
+                        $usernameFeedback.classList.add('error');
+                    }
+                });
+        });
+    });
+</script>
 {% endblock %}

@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from django.db.models import Q
-from qna.entity.models import Question
+from qna.entity.models import Question, Answer
+from django.db.models import Prefetch
 
 
 class QuestionRepository(ABC):
@@ -45,7 +46,7 @@ class QuestionRepositoryImpl(QuestionRepository):
 
     def find_all(self):
         # return Question.objects.all().order_by('-created_at') # N+1 이슈
-        return Question.objects.prefetch_related('author', 'answer_set').order_by('-created_at')
+        return Question.objects.prefetch_related('author', 'answer_set').order_by('-created_at') # answer author 이슈
 
     def find_by_id(self, id):
         return Question.objects.get(id=id)
