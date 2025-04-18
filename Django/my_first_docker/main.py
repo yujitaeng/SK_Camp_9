@@ -4,4 +4,4 @@ app = FastAPI()
 
 @app.get("/")
 def hello_docker():
-    return "YOOZI's First Docker, HELLO!"
+    return "Squirrel's First Docker, HELLO!"
